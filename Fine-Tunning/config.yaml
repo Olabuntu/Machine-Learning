@@ -1,0 +1,59 @@
+# Fine-tuning Configuration File
+
+# Model Configuration
+model:
+  name: "google/gemma-2-2b-it"
+  max_length: 512
+  padding_side: "left"
+
+# Training Configuration
+training:
+  learning_rate: 1e-5
+  batch_size: 4
+  num_epochs: 3
+  warmup_steps: 100
+  weight_decay: 0.01
+  gradient_accumulation_steps: 1
+  max_grad_norm: 1.0
+
+# LoRA Configuration
+lora:
+  r: 8
+  lora_alpha: 32
+  lora_dropout: 0.1
+  bias: "none"
+  target_modules: ["q_proj", "v_proj"]
+
+# Quantization Configuration
+quantization:
+  use_4bit: true
+  bnb_4bit_quant_type: "nf4"
+  bnb_4bit_use_double_quant: true
+  bnb_4bit_compute_dtype: "bfloat16"
+
+# Data Configuration
+data:
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  max_samples: null  # null means use all data
+
+# Evaluation Configuration
+evaluation:
+  metrics: ["bleu", "rouge", "perplexity"]
+  eval_steps: 100
+  save_steps: 500
+
+# Logging Configuration
+logging:
+  project_name: "llm-finetuning"
+  log_level: "INFO"
+  use_wandb: true
+  use_tensorboard: true
+
+# Paths
+paths:
+  data_path: "./data"
+  model_save_path: "./models"
+  output_path: "./outputs"
+  cache_dir: "./cache"
